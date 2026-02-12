@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .active-tab { background-color: #374151; border-left: 4px solid #3b82f6; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+
+    <!-- Auth Check -->
+    <script>
+        if (localStorage.getItem('isAuthenticated') !== 'true') {
+            window.location.href = 'index.html';
+        }
+        function logout() {
+            localStorage.removeItem('isAuthenticated');
+            window.location.href = 'index.html';
+        }
+    </script>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gray-800 border-r border-gray-700 flex flex-col">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold text-white">Admin Panel</h1>
+            </div>
+            <nav class="flex-1 overflow-y-auto">
+                <ul class="space-y-2">
+                    <li>
+                        <button onclick="showSection('personal')" id="btn-personal" class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center active-tab">
+                            <span>Personal Details</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('technologies')" id="btn-technologies" class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
+                            <span>Technologies</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('projects')" id="btn-projects" class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
+                            <span>Projects</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('education')" id="btn-education" class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
+                            <span>Education</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('contact')" id="btn-contact" class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
+                            <span>Messages</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            <div class="p-4 border-t border-gray-700">
+                <button onclick="logout()" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transition">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-8">
+            
+            <!-- Personal Details Section -->
+            <section id="section-personal" class="block">
+                <h2 class="text-3xl font-bold mb-6 text-blue-400">Personal Details</h2>
+                <form id="personal-form" class="bg-gray-800 p-6 rounded-lg shadow-md max-w-2xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-gray-400">Email</label>
+                            <input type="email" name="email" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-gray-400">Contact</label>
+                            <input type="text" name="contact" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        </div>
+                         <div class="md:col-span-2">
+                            <label class="block text-sm font-medium mb-1 text-gray-400">Tag Line</label>
+                            <input type="text" name="tag_line" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium mb-1 text-gray-400">Bio</label>
+                            <textarea name="bio" rows="4" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium mb-1 text-gray-400">Address</label>
+                            <input type="text" name="address" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-gray-400">GitHub URL</label>
+                            <input type="url" name="github" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-gray-400">LinkedIn URL</label>
+                            <input type="url" name="linkedin" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div class="mt-6 text-right">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium transition">Save Changes</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Technologies Section -->
+            <section id="section-technologies" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-blue-400">Technologies</h2>
+                    <button onclick="openModal('tech-modal')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition">+ Add Tech</button>
+                </div>
+                <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-700 text-gray-300">
+                            <tr>
+                                <th class="p-4">Name</th>
+                                <th class="p-4">Category</th>
+                                <th class="p-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tech-list" class="divide-y divide-gray-700">
+                            <!-- Items will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="section-projects" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-blue-400">Projects</h2>
+                    <button onclick="openModal('project-modal'); loadTechOptions('project-tech-select');" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition">+ Add Project</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="project-list">
+                    <!-- Projects will be injected here -->
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section id="section-education" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-blue-400">Education</h2>
+                    <button onclick="openModal('edu-modal')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition">+ Add Education</button>
+                </div>
+                <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-700 text-gray-300">
+                            <tr>
+                                <th class="p-4">School</th>
+                                <th class="p-4">Course</th>
+                                <th class="p-4">Time Period</th>
+                                <th class="p-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="edu-list" class="divide-y divide-gray-700">
+                            <!-- Items will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+             <!-- Contact Messages Section -->
+             <section id="section-contact" class="hidden">
+                <h2 class="text-3xl font-bold mb-6 text-blue-400">Messages</h2>
+                <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-700 text-gray-300">
+                            <tr>
+                                <th class="p-4">Date</th>
+                                <th class="p-4">Name</th>
+                                <th class="p-4">Email</th>
+                                <th class="p-4">Message</th>
+                                <th class="p-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contact-list" class="divide-y divide-gray-700">
+                            <!-- Items will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- Tech Modal -->
+    <div id="tech-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 id="tech-modal-title" class="text-xl font-bold mb-4">Add Technology</h3>
+            <form id="tech-form">
+                <input type="hidden" name="id" id="tech-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1">Technology Name</label>
+                    <input type="text" name="technology" id="tech-name" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-1">Category</label>
+                    <select name="category" id="tech-category" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        <option value="Language">Language</option>
+                        <option value="Framework/Library">Framework/Library</option>
+                        <option value="Dev Tool">Dev Tool</option>
+                        <option value="Database">Database</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('tech-modal')" class="px-4 py-2 hover:bg-gray-700 rounded transition">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Education Modal -->
+    <div id="edu-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 id="edu-modal-title" class="text-xl font-bold mb-4">Add Education</h3>
+            <form id="edu-form">
+                <input type="hidden" name="id" id="edu-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1">School/College</label>
+                    <input type="text" name="school" id="edu-school" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1">Course</label>
+                    <input type="text" name="course" id="edu-course" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1">Time Period</label>
+                    <input type="text" name="time_period" id="edu-time" placeholder="e.g. 2020 - 2024" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-1">Note (Optional)</label>
+                    <textarea name="note" id="edu-note" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"></textarea>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('edu-modal')" class="px-4 py-2 hover:bg-gray-700 rounded transition">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50 overflow-y-auto">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-2xl m-4">
+            <h3 id="project-modal-title" class="text-xl font-bold mb-4">Add Project</h3>
+            <form id="project-form">
+                <input type="hidden" name="id" id="project-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium mb-1">Title</label>
+                        <input type="text" name="title" id="project-title" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Type</label>
+                         <select name="project_type" id="project-type" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                            <option value="Hobby">Hobby</option>
+                            <option value="Professional">Professional</option>
+                            <option value="Open Source">Open Source</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Cover Photo URL</label>
+                        <input type="text" name="cover_photo" id="project-cover" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium mb-1">Description</label>
+                        <textarea name="description" id="project-desc" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                         <label class="block text-sm font-medium mb-1">Tech Stack</label>
+                         <select id="project-tech-select" multiple class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500 h-24">
+                             <!-- Options populated by JS -->
+                         </select>
+                         <p class="text-xs text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Live Link</label>
+                        <input type="text" name="live_link" id="project-live" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">GitHub Link</label>
+                        <input type="text" name="github_link" id="project-github" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('project-modal')" class="px-4 py-2 hover:bg-gray-700 rounded transition">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:8000/api';
+
+        // --- Navigation ---
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('section-' + sectionId).classList.remove('hidden');
+            
+            document.querySelectorAll('aside nav button').forEach(el => el.classList.remove('active-tab'));
+            document.getElementById('btn-' + sectionId).classList.add('active-tab');
+
+            // Load data for the section
+            if (sectionId === 'personal') loadPersonal();
+            if (sectionId === 'technologies') loadTechnologies();
+            if (sectionId === 'projects') loadProjects();
+            if (sectionId === 'education') loadEducation();
+            if (sectionId === 'contact') loadContacts();
+        }
+
+        // --- Modals ---
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            // Reset form
+            const form = document.querySelector(`#${modalId} form`);
+            if(form) form.reset();
+            // Reset hidden ID
+             const idInput = form.querySelector('input[type="hidden"]');
+            if(idInput) idInput.value = '';
+            
+            // Set title to Add
+             const title = document.getElementById(modalId + '-title');
+             if(title && title.innerText.includes('Edit')) {
+                 title.innerText = title.innerText.replace('Edit', 'Add');
+             }
+
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // --- Personal Details ---
+        async function loadPersonal() {
+            try {
+                const res = await fetch(`${API_BASE}/me`);
+                if(res.ok) {
+                    const data = await res.json();
+                    const form = document.getElementById('personal-form');
+                    for (const key in data) {
+                        if (form.elements[key]) {
+                            form.elements[key].value = data[key];
+                        }
+                    }
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        document.getElementById('personal-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                const res = await fetch(`${API_BASE}/me`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (res.ok) alert('Saved successfully!');
+                else alert('Error saving data');
+            } catch(err) { console.error(err); }
+        });
+
+         // --- Technologies ---
+        let allTechnologies = [];
+
+        async function loadTechnologies() {
+            try {
+                const res = await fetch(`${API_BASE}/technologies`);
+                const data = await res.json();
+                allTechnologies = data;
+                const tbody = document.getElementById('tech-list');
+                tbody.innerHTML = '';
+                data.forEach(item => {
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-gray-750 transition">
+                            <td class="p-4">${item.technology}</td>
+                            <td class="p-4"><span class="bg-gray-700 px-2 py-1 rounded text-xs">${item.category}</span></td>
+                            <td class="p-4 text-right">
+                                <button onclick="editTech(${item.id})" class="text-blue-400 hover:text-blue-300 mr-3">Edit</button>
+                                <button onclick="deleteTech(${item.id})" class="text-red-400 hover:text-red-300">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        document.getElementById('tech-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('tech-id').value;
+            const data = {
+                technology: document.getElementById('tech-name').value,
+                category: document.getElementById('tech-category').value
+            };
+            
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `${API_BASE}/technologies/${id}` : `${API_BASE}/technologies`;
+
+            try {
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if(res.ok) {
+                    closeModal('tech-modal');
+                    loadTechnologies();
+                } else alert('Error saving technology');
+            } catch(err) { console.error(err); }
+        });
+
+        window.editTech = (id) => {
+            const item = allTechnologies.find(t => t.id === id);
+            if (!item) return;
+            document.getElementById('tech-id').value = item.id;
+            document.getElementById('tech-name').value = item.technology;
+            document.getElementById('tech-category').value = item.category;
+            document.getElementById('tech-modal-title').innerText = 'Edit Technology';
+            openModal('tech-modal');
+        };
+
+        window.deleteTech = async (id) => {
+            if(!confirm('Are you sure?')) return;
+            await fetch(`${API_BASE}/technologies/${id}`, { method: 'DELETE' });
+            loadTechnologies();
+        };
+
+
+        // --- Education ---
+        let allEducation = [];
+        async function loadEducation() {
+            try {
+                const res = await fetch(`${API_BASE}/edu`);
+                const data = await res.json();
+                allEducation = data;
+                const tbody = document.getElementById('edu-list');
+                tbody.innerHTML = '';
+                data.forEach(item => {
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-gray-750 transition">
+                            <td class="p-4 font-medium">${item.school}</td>
+                            <td class="p-4">${item.course}</td>
+                            <td class="p-4 text-gray-400 text-sm">${item.time_period}</td>
+                            <td class="p-4 text-right">
+                                <button onclick="editEdu(${item.id})" class="text-blue-400 hover:text-blue-300 mr-3">Edit</button>
+                                <button onclick="deleteEdu(${item.id})" class="text-red-400 hover:text-red-300">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        document.getElementById('edu-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edu-id').value;
+            const data = {
+                school: document.getElementById('edu-school').value,
+                course: document.getElementById('edu-course').value,
+                time_period: document.getElementById('edu-time').value,
+                note: document.getElementById('edu-note').value
+            };
+            
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `${API_BASE}/edu/${id}` : `${API_BASE}/edu`;
+
+            try {
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if(res.ok) {
+                    closeModal('edu-modal');
+                    loadEducation();
+                } else alert('Error saving education');
+            } catch(err) { console.error(err); }
+        });
+
+        window.editEdu = (id) => {
+            const item = allEducation.find(e => e.id === id);
+            if (!item) return;
+            document.getElementById('edu-id').value = item.id;
+            document.getElementById('edu-school').value = item.school;
+            document.getElementById('edu-course').value = item.course;
+            document.getElementById('edu-time').value = item.time_period;
+            document.getElementById('edu-note').value = item.note || '';
+            document.getElementById('edu-modal-title').innerText = 'Edit Education';
+            openModal('edu-modal');
+        };
+
+        window.deleteEdu = async (id) => {
+            if(!confirm('Are you sure?')) return;
+            await fetch(`${API_BASE}/edu/${id}`, { method: 'DELETE' });
+            loadEducation();
+        };
+
+        // --- Projects ---
+         let allProjects = [];
+
+        async function loadTechOptions(selectId, selectedIds = []) {
+            try {
+                // Ensure latest techs are loaded if not already
+                if(allTechnologies.length === 0) {
+                     const res = await fetch(`${API_BASE}/technologies`);
+                     allTechnologies = await res.json();
+                }
+                
+                const select = document.getElementById(selectId);
+                select.innerHTML = '';
+                allTechnologies.forEach(tech => {
+                    const option = document.createElement('option');
+                    option.value = tech.id;
+                    option.text = tech.technology + ` (${tech.category})`;
+                    if(selectedIds.includes(tech.id)) option.selected = true;
+                    select.appendChild(option);
+                });
+            } catch(err) { console.error(err); }
+        }
+
+        async function loadProjects() {
+            try {
+                const res = await fetch(`${API_BASE}/projects`);
+                const data = await res.json();
+                allProjects = data;
+                const container = document.getElementById('project-list');
+                container.innerHTML = '';
+                data.forEach(item => {
+                    const techStackNames = item.tech_stack ? item.tech_stack.map(t => t.technology).join(', ') : '';
+                    container.innerHTML += `
+                        <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-700 hover:border-gray-600 transition">
+                            <div class="h-32 bg-gray-700 w-full object-cover relative">
+                                  ${item.cover_photo ? `<img src="${item.cover_photo}" class="w-full h-full object-cover">` : '<div class="flex items-center justify-center h-full text-gray-500">No Image</div>'}
+                                  <span class="absolute top-2 right-2 bg-black bg-opacity-70 px-2 py-1 rounded text-xs text-white">${item.project_type}</span>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg mb-1">${item.title}</h3>
+                                <p class="text-sm text-gray-400 mb-2 truncate">${item.description}</p>
+                                <div class="text-xs text-blue-400 mb-4 h-5 overflow-hidden">${techStackNames}</div>
+                                <div class="flex justify-between mt-auto">
+                                    <div>
+                                        ${item.live_link ? `<a href="${item.live_link}" target="_blank" class="text-gray-400 hover:text-white mr-2 text-xs">Live</a>` : ''}
+                                        ${item.github_link ? `<a href="${item.github_link}" target="_blank" class="text-gray-400 hover:text-white text-xs">GitHub</a>` : ''}
+                                    </div>
+                                    <div>
+                                         <button onclick="editProject(${item.id})" class="text-blue-400 hover:text-blue-300 mr-2 text-sm">Edit</button>
+                                         <button onclick="deleteProject(${item.id})" class="text-red-400 hover:text-red-300 text-sm">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        document.getElementById('project-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('project-id').value;
+            
+            // Get selected tech stack IDs
+            const techSelect = document.getElementById('project-tech-select');
+            const selectedTechs = Array.from(techSelect.selectedOptions).map(opt => parseInt(opt.value));
+            
+            const data = {
+                title: document.getElementById('project-title').value,
+                description: document.getElementById('project-desc').value,
+                project_type: document.getElementById('project-type').value,
+                cover_photo: document.getElementById('project-cover').value,
+                live_link: document.getElementById('project-live').value,
+                github_link: document.getElementById('project-github').value,
+                tech_stack_ids: selectedTechs
+            };
+            
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `${API_BASE}/projects/${id}` : `${API_BASE}/projects`;
+
+            try {
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if(res.ok) {
+                    closeModal('project-modal');
+                    loadProjects();
+                } else alert('Error saving project');
+            } catch(err) { console.error(err); }
+        });
+
+         window.editProject = (id) => {
+            const item = allProjects.find(p => p.id === id);
+            if (!item) return;
+            document.getElementById('project-id').value = item.id;
+            document.getElementById('project-title').value = item.title;
+            document.getElementById('project-desc').value = item.description;
+            document.getElementById('project-type').value = item.project_type;
+            document.getElementById('project-cover').value = item.cover_photo || '';
+            document.getElementById('project-live').value = item.live_link || '';
+            document.getElementById('project-github').value = item.github_link || '';
+            
+            document.getElementById('project-modal-title').innerText = 'Edit Project';
+            
+            // Load techs and select existing ones
+            const currentTechIds = item.tech_stack ? item.tech_stack.map(t => t.id) : [];
+            loadTechOptions('project-tech-select', currentTechIds);
+            
+            openModal('project-modal');
+        };
+
+         window.deleteProject = async (id) => {
+            if(!confirm('Are you sure?')) return;
+            await fetch(`${API_BASE}/projects/${id}`, { method: 'DELETE' });
+            loadProjects();
+        };
+
+        // --- Contacts ---
+        async function loadContacts() {
+             try {
+                const res = await fetch(`${API_BASE}/contact`);
+                const data = await res.json();
+                const tbody = document.getElementById('contact-list');
+                tbody.innerHTML = '';
+                data.forEach(item => {
+                    const date = new Date(item.date_time).toLocaleString();
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-gray-750 transition">
+                            <td class="p-4 text-sm text-gray-400 whitespace-nowrap">${date}</td>
+                            <td class="p-4 font-medium">${item.name}</td>
+                            <td class="p-4 text-blue-400">${item.email}</td>
+                            <td class="p-4 text-gray-300 max-w-xs truncate">${item.message}</td>
+                            <td class="p-4 text-right">
+                                <button onclick="deleteContact(${item.id})" class="text-red-400 hover:text-red-300">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        window.deleteContact = async (id) => {
+            if(!confirm('Are you sure you want to delete this message?')) return;
+             await fetch(`${API_BASE}/contact/${id}`, { method: 'DELETE' });
+             loadContacts();
+        }
+
+        // Init
+        showSection('personal');
+
+    </script>
+</body>
+</html>

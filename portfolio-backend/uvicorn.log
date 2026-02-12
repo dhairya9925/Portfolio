@@ -1,0 +1,78 @@
+INFO:     Will watch for changes in these directories: ['/home/dhairya/projects and learings/portfolio/portfolio-backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [673771] using StatReload
+/home/dhairya/projects and learings/portfolio/portfolio-backend/.venv/lib64/python3.14/site-packages/pydantic/_internal/_config.py:383: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+INFO:     Started server process [673773]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:42386 - "POST /token HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42386 - "OPTIONS /api/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42392 - "GET /api/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34416 - "OPTIONS /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34416 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34416 - "OPTIONS /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34416 - "GET /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34416 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42206 - "GET /api/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56054 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32812 - "OPTIONS /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32812 - "POST /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32818 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37366 - "POST /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37366 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37374 - "OPTIONS /api/technologies/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37374 - "DELETE /api/technologies/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37382 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49798 - "POST /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49798 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54970 - "POST /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54970 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36992 - "OPTIONS /api/technologies/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36992 - "DELETE /api/technologies/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37006 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37020 - "POST /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37020 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55874 - "POST /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55874 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38444 - "POST /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38444 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48462 - "POST /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48462 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58024 - "POST /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58024 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58024 - "GET /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58024 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58522 - "OPTIONS /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58522 - "POST /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58532 - "GET /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58532 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58532 - "OPTIONS /api/projects/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58532 - "DELETE /api/projects/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58522 - "GET /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58522 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55388 - "POST /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55388 - "GET /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55388 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40464 - "DELETE /api/projects/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40464 - "GET /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40464 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50966 - "OPTIONS /api/upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50966 - "POST /api/upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50966 - "POST /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50978 - "GET /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50978 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50978 - "OPTIONS /api/edu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50978 - "GET /api/edu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52660 - "OPTIONS /api/edu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52660 - "POST /api/edu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52666 - "GET /api/edu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43634 - "POST /api/edu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43634 - "GET /api/edu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43634 - "OPTIONS /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43634 - "GET /api/technologies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43634 - "OPTIONS /api/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43634 - "GET /api/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41420 - "OPTIONS /api/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41420 - "POST /api/me HTTP/1.1" 200 OK
