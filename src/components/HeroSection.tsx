@@ -72,9 +72,13 @@ const HeroSection = () => {
           <div className="relative w-full max-w-md aspect-square flex items-center justify-center">
             <div className="absolute inset-0 bg-primary/10 rounded-full blur-3xl -z-10 animate-pulse" />
             <img
-              src="/Dhairya.png"
+              src="/Portfolio-image-2.png"
               alt="Profile"
-              className="w-fit h-fit object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500 ease-in-out [mask-image:linear-gradient(to_bottom,black_50%,transparent_100%)]"
+              className="w-fit h-fit object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500 ease-in-out"
+            // style={{
+            //   maskImage: `radial-gradient(ellipse 95% 100% at 50% -10%, black 80%, transparent 100%)`,
+            //   WebkitMaskImage: `radial-gradient(ellipse 95% 100% at 50% -10%, black 80%, transparent 100%)`,
+            // }}
             />
           </div>
         </motion.div>
