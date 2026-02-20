@@ -1,26 +1,35 @@
 import AnimatedSection from "./AnimatedSection";
 
+interface Technology {
+  id: number;
+  technology: string;
+  category: "Language" | "Framework/Library" | "Dev Tool" | "Database";
+}
 
-const skillsData = [
-  {
-    category: "Languages",
-    items: ["Python", "TypeScript", "JavaScript", "HTML/CSS", "SQL"],
-  },
-  {
-    category: "Frameworks & Libraries",
-    items: ["React", "Next.js", "Node.js", "Tailwind CSS", "Framer Motion"],
-  },
-  {
-    category: "Dev Tools",
-    items: ["Git", "Docker", "VS Code", "Postman", "Linux"],
-  },
-  {
-    category: "Databases",
-    items: ["PostgreSQL", "MongoDB", "Redis", "Supabase"],
-  },
-];
+interface SkillsProps {
+  technologies?: Technology[];
+}
 
-const SkillCategory = ({ category, items, index }: { category: string; items: string[]; index: number }) => (
+// Map backend category values to display-friendly names
+const categoryDisplayNames: Record<string, string> = {
+  Language: "Languages",
+  "Framework/Library": "Frameworks & Libraries",
+  "Dev Tool": "Dev Tools",
+  Database: "Databases",
+};
+
+// The four categories in display order
+const categoryOrder = ["Language", "Framework/Library", "Dev Tool", "Database"];
+
+const SkillCategory = ({
+  category,
+  items,
+  index,
+}: {
+  category: string;
+  items: string[];
+  index: number;
+}) => (
   <AnimatedSection delay={index * 0.1} className="h-full">
     <div className="h-full p-6 rounded-2xl bg-card border border-border/50 hover:border-primary/50 transition-colors duration-300">
       <h3 className="text-xl font-heading font-medium mb-4 text-primary">{category}</h3>
@@ -36,7 +45,21 @@ const SkillCategory = ({ category, items, index }: { category: string; items: st
   </AnimatedSection>
 );
 
-const SkillsSection = () => {
+const SkillsSection = ({ technologies = [] }: SkillsProps) => {
+  // Group technologies by category
+  const grouped = categoryOrder.map((cat) => ({
+    category: categoryDisplayNames[cat] || cat,
+    items: technologies.filter((t) => t.category === cat).map((t) => t.technology),
+  }));
+
+  // Filter out empty categories
+  const skillsData = grouped.filter((g) => g.items.length > 0);
+
+  // If no data from API, show nothing or a placeholder
+  if (skillsData.length === 0) {
+    return null;
+  }
+
   return (
     <section id="skills" className="section-padding bg-card/50">
       <div className="max-w-7xl mx-auto container px-4 sm:px-6 lg:px-8">

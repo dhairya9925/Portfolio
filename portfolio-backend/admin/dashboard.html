@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .active-tab { background-color: #374151; border-left: 4px solid #3b82f6; }
+        .active-tab {
+            background-color: #374151;
+            border-left: 4px solid #3b82f6;
+        }
     </style>
 </head>
+
 <body class="bg-gray-900 text-gray-100 font-sans">
 
     <!-- Auth Check -->
@@ -31,40 +36,46 @@
             <nav class="flex-1 overflow-y-auto">
                 <ul class="space-y-2">
                     <li>
-                        <button onclick="showSection('personal')" id="btn-personal" class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center active-tab">
+                        <button onclick="showSection('personal')" id="btn-personal"
+                            class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center active-tab">
                             <span>Personal Details</span>
                         </button>
                     </li>
                     <li>
-                        <button onclick="showSection('technologies')" id="btn-technologies" class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
+                        <button onclick="showSection('technologies')" id="btn-technologies"
+                            class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
                             <span>Technologies</span>
                         </button>
                     </li>
                     <li>
-                        <button onclick="showSection('projects')" id="btn-projects" class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
+                        <button onclick="showSection('projects')" id="btn-projects"
+                            class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
                             <span>Projects</span>
                         </button>
                     </li>
                     <li>
-                        <button onclick="showSection('education')" id="btn-education" class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
+                        <button onclick="showSection('education')" id="btn-education"
+                            class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
                             <span>Education</span>
                         </button>
                     </li>
                     <li>
-                        <button onclick="showSection('contact')" id="btn-contact" class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
+                        <button onclick="showSection('contact')" id="btn-contact"
+                            class="w-full text-left py-3 px-6 hover:bg-gray-700 transition flex items-center">
                             <span>Messages</span>
                         </button>
                     </li>
                 </ul>
             </nav>
             <div class="p-4 border-t border-gray-700">
-                <button onclick="logout()" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transition">Logout</button>
+                <button onclick="logout()"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transition">Logout</button>
             </div>
         </aside>
 
         <!-- Main Content -->
         <main class="flex-1 overflow-y-auto p-8">
-            
+
             <!-- Personal Details Section -->
             <section id="section-personal" class="block">
                 <h2 class="text-3xl font-bold mb-6 text-blue-400">Personal Details</h2>
@@ -72,35 +83,44 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium mb-1 text-gray-400">Email</label>
-                            <input type="email" name="email" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                            <input type="email" name="email"
+                                class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1 text-gray-400">Contact</label>
-                            <input type="text" name="contact" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                            <input type="text" name="contact"
+                                class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                         </div>
-                         <div class="md:col-span-2">
+                        <div class="md:col-span-2">
                             <label class="block text-sm font-medium mb-1 text-gray-400">Tag Line</label>
-                            <input type="text" name="tag_line" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                            <input type="text" name="tag_line"
+                                class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium mb-1 text-gray-400">Bio</label>
-                            <textarea name="bio" rows="4" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"></textarea>
+                            <textarea name="bio" rows="4"
+                                class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"></textarea>
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium mb-1 text-gray-400">Address</label>
-                            <input type="text" name="address" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                            <input type="text" name="address"
+                                class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1 text-gray-400">GitHub URL</label>
-                            <input type="url" name="github" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                            <input type="url" name="github"
+                                class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1 text-gray-400">LinkedIn URL</label>
-                            <input type="url" name="linkedin" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                            <input type="url" name="linkedin"
+                                class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                         </div>
                     </div>
                     <div class="mt-6 text-right">
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium transition">Save Changes</button>
+                        <button type="submit"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium transition">Save
+                            Changes</button>
                     </div>
                 </form>
             </section>
@@ -109,7 +129,9 @@
             <section id="section-technologies" class="hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-3xl font-bold text-blue-400">Technologies</h2>
-                    <button onclick="openModal('tech-modal')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition">+ Add Tech</button>
+                    <button onclick="openModal('tech-modal')"
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition">+ Add
+                        Tech</button>
                 </div>
                 <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
                     <table class="w-full text-left">
@@ -131,7 +153,9 @@
             <section id="section-projects" class="hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-3xl font-bold text-blue-400">Projects</h2>
-                    <button onclick="openModal('project-modal'); loadTechOptions('project-tech-select');" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition">+ Add Project</button>
+                    <button onclick="openModal('project-modal'); loadTechOptions('project-tech-select');"
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition">+ Add
+                        Project</button>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="project-list">
                     <!-- Projects will be injected here -->
@@ -142,7 +166,9 @@
             <section id="section-education" class="hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-3xl font-bold text-blue-400">Education</h2>
-                    <button onclick="openModal('edu-modal')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition">+ Add Education</button>
+                    <button onclick="openModal('edu-modal')"
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition">+ Add
+                        Education</button>
                 </div>
                 <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
                     <table class="w-full text-left">
@@ -161,8 +187,8 @@
                 </div>
             </section>
 
-             <!-- Contact Messages Section -->
-             <section id="section-contact" class="hidden">
+            <!-- Contact Messages Section -->
+            <section id="section-contact" class="hidden">
                 <h2 class="text-3xl font-bold mb-6 text-blue-400">Messages</h2>
                 <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
                     <table class="w-full text-left">
@@ -186,7 +212,7 @@
     </div>
 
     <!-- Modals -->
-    
+
     <!-- Tech Modal -->
     <div id="tech-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
         <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
@@ -195,11 +221,14 @@
                 <input type="hidden" name="id" id="tech-id">
                 <div class="mb-4">
                     <label class="block text-sm font-medium mb-1">Technology Name</label>
-                    <input type="text" name="technology" id="tech-name" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required>
+                    <input type="text" name="technology" id="tech-name"
+                        class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"
+                        required>
                 </div>
                 <div class="mb-6">
                     <label class="block text-sm font-medium mb-1">Category</label>
-                    <select name="category" id="tech-category" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                    <select name="category" id="tech-category"
+                        class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                         <option value="Language">Language</option>
                         <option value="Framework/Library">Framework/Library</option>
                         <option value="Dev Tool">Dev Tool</option>
@@ -207,8 +236,10 @@
                     </select>
                 </div>
                 <div class="flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('tech-modal')" class="px-4 py-2 hover:bg-gray-700 rounded transition">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">Save</button>
+                    <button type="button" onclick="closeModal('tech-modal')"
+                        class="px-4 py-2 hover:bg-gray-700 rounded transition">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">Save</button>
                 </div>
             </form>
         </div>
@@ -222,30 +253,40 @@
                 <input type="hidden" name="id" id="edu-id">
                 <div class="mb-4">
                     <label class="block text-sm font-medium mb-1">School/College</label>
-                    <input type="text" name="school" id="edu-school" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required>
+                    <input type="text" name="school" id="edu-school"
+                        class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"
+                        required>
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium mb-1">Course</label>
-                    <input type="text" name="course" id="edu-course" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required>
+                    <input type="text" name="course" id="edu-course"
+                        class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"
+                        required>
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium mb-1">Time Period</label>
-                    <input type="text" name="time_period" id="edu-time" placeholder="e.g. 2020 - 2024" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required>
+                    <input type="text" name="time_period" id="edu-time" placeholder="e.g. 2020 - 2024"
+                        class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"
+                        required>
                 </div>
                 <div class="mb-6">
                     <label class="block text-sm font-medium mb-1">Note (Optional)</label>
-                    <textarea name="note" id="edu-note" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"></textarea>
+                    <textarea name="note" id="edu-note"
+                        class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"></textarea>
                 </div>
                 <div class="flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('edu-modal')" class="px-4 py-2 hover:bg-gray-700 rounded transition">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">Save</button>
+                    <button type="button" onclick="closeModal('edu-modal')"
+                        class="px-4 py-2 hover:bg-gray-700 rounded transition">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">Save</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Project Modal -->
-    <div id="project-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50 overflow-y-auto">
+    <div id="project-modal"
+        class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50 overflow-y-auto">
         <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-2xl m-4">
             <h3 id="project-modal-title" class="text-xl font-bold mb-4">Add Project</h3>
             <form id="project-form">
@@ -253,11 +294,14 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium mb-1">Title</label>
-                        <input type="text" name="title" id="project-title" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required>
+                        <input type="text" name="title" id="project-title"
+                            class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"
+                            required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Type</label>
-                         <select name="project_type" id="project-type" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        <select name="project_type" id="project-type"
+                            class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                             <option value="Hobby">Hobby</option>
                             <option value="Professional">Professional</option>
                             <option value="Open Source">Open Source</option>
@@ -265,31 +309,39 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Cover Photo URL</label>
-                        <input type="text" name="cover_photo" id="project-cover" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        <input type="text" name="cover_photo" id="project-cover"
+                            class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium mb-1">Description</label>
-                        <textarea name="description" id="project-desc" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500" required></textarea>
+                        <textarea name="description" id="project-desc" rows="3"
+                            class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500"
+                            required></textarea>
                     </div>
                     <div class="md:col-span-2">
-                         <label class="block text-sm font-medium mb-1">Tech Stack</label>
-                         <select id="project-tech-select" multiple class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500 h-24">
-                             <!-- Options populated by JS -->
-                         </select>
-                         <p class="text-xs text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple</p>
+                        <label class="block text-sm font-medium mb-1">Tech Stack</label>
+                        <select id="project-tech-select" multiple
+                            class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500 h-24">
+                            <!-- Options populated by JS -->
+                        </select>
+                        <p class="text-xs text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Live Link</label>
-                        <input type="text" name="live_link" id="project-live" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        <input type="text" name="live_link" id="project-live"
+                            class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">GitHub Link</label>
-                        <input type="text" name="github_link" id="project-github" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
+                        <input type="text" name="github_link" id="project-github"
+                            class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-blue-500">
                     </div>
                 </div>
                 <div class="flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('project-modal')" class="px-4 py-2 hover:bg-gray-700 rounded transition">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">Save</button>
+                    <button type="button" onclick="closeModal('project-modal')"
+                        class="px-4 py-2 hover:bg-gray-700 rounded transition">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">Save</button>
                 </div>
             </form>
         </div>
@@ -303,7 +355,7 @@
         function showSection(sectionId) {
             document.querySelectorAll('section').forEach(el => el.classList.add('hidden'));
             document.getElementById('section-' + sectionId).classList.remove('hidden');
-            
+
             document.querySelectorAll('aside nav button').forEach(el => el.classList.remove('active-tab'));
             document.getElementById('btn-' + sectionId).classList.add('active-tab');
 
@@ -320,16 +372,16 @@
             document.getElementById(modalId).classList.remove('hidden');
             // Reset form
             const form = document.querySelector(`#${modalId} form`);
-            if(form) form.reset();
+            if (form) form.reset();
             // Reset hidden ID
-             const idInput = form.querySelector('input[type="hidden"]');
-            if(idInput) idInput.value = '';
-            
+            const idInput = form.querySelector('input[type="hidden"]');
+            if (idInput) idInput.value = '';
+
             // Set title to Add
-             const title = document.getElementById(modalId + '-title');
-             if(title && title.innerText.includes('Edit')) {
-                 title.innerText = title.innerText.replace('Edit', 'Add');
-             }
+            const title = document.getElementById(modalId + '-title');
+            if (title && title.innerText.includes('Edit')) {
+                title.innerText = title.innerText.replace('Edit', 'Add');
+            }
 
         }
 
@@ -341,7 +393,7 @@
         async function loadPersonal() {
             try {
                 const res = await fetch(`${API_BASE}/me`);
-                if(res.ok) {
+                if (res.ok) {
                     const data = await res.json();
                     const form = document.getElementById('personal-form');
                     for (const key in data) {
@@ -357,7 +409,7 @@
             e.preventDefault();
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
-            
+
             try {
                 const res = await fetch(`${API_BASE}/me`, {
                     method: 'POST',
@@ -366,10 +418,10 @@
                 });
                 if (res.ok) alert('Saved successfully!');
                 else alert('Error saving data');
-            } catch(err) { console.error(err); }
+            } catch (err) { console.error(err); }
         });
 
-         // --- Technologies ---
+        // --- Technologies ---
         let allTechnologies = [];
 
         async function loadTechnologies() {
@@ -401,7 +453,7 @@
                 technology: document.getElementById('tech-name').value,
                 category: document.getElementById('tech-category').value
             };
-            
+
             const method = id ? 'PUT' : 'POST';
             const url = id ? `${API_BASE}/technologies/${id}` : `${API_BASE}/technologies`;
 
@@ -411,11 +463,11 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                if(res.ok) {
+                if (res.ok) {
                     closeModal('tech-modal');
                     loadTechnologies();
                 } else alert('Error saving technology');
-            } catch(err) { console.error(err); }
+            } catch (err) { console.error(err); }
         });
 
         window.editTech = (id) => {
@@ -429,7 +481,7 @@
         };
 
         window.deleteTech = async (id) => {
-            if(!confirm('Are you sure?')) return;
+            if (!confirm('Are you sure?')) return;
             await fetch(`${API_BASE}/technologies/${id}`, { method: 'DELETE' });
             loadTechnologies();
         };
@@ -469,7 +521,7 @@
                 time_period: document.getElementById('edu-time').value,
                 note: document.getElementById('edu-note').value
             };
-            
+
             const method = id ? 'PUT' : 'POST';
             const url = id ? `${API_BASE}/edu/${id}` : `${API_BASE}/edu`;
 
@@ -479,11 +531,11 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                if(res.ok) {
+                if (res.ok) {
                     closeModal('edu-modal');
                     loadEducation();
                 } else alert('Error saving education');
-            } catch(err) { console.error(err); }
+            } catch (err) { console.error(err); }
         });
 
         window.editEdu = (id) => {
@@ -499,32 +551,32 @@
         };
 
         window.deleteEdu = async (id) => {
-            if(!confirm('Are you sure?')) return;
+            if (!confirm('Are you sure?')) return;
             await fetch(`${API_BASE}/edu/${id}`, { method: 'DELETE' });
             loadEducation();
         };
 
         // --- Projects ---
-         let allProjects = [];
+        let allProjects = [];
 
         async function loadTechOptions(selectId, selectedIds = []) {
             try {
                 // Ensure latest techs are loaded if not already
-                if(allTechnologies.length === 0) {
-                     const res = await fetch(`${API_BASE}/technologies`);
-                     allTechnologies = await res.json();
+                if (allTechnologies.length === 0) {
+                    const res = await fetch(`${API_BASE}/technologies`);
+                    allTechnologies = await res.json();
                 }
-                
+
                 const select = document.getElementById(selectId);
                 select.innerHTML = '';
                 allTechnologies.forEach(tech => {
                     const option = document.createElement('option');
                     option.value = tech.id;
                     option.text = tech.technology + ` (${tech.category})`;
-                    if(selectedIds.includes(tech.id)) option.selected = true;
+                    if (selectedIds.includes(tech.id)) option.selected = true;
                     select.appendChild(option);
                 });
-            } catch(err) { console.error(err); }
+            } catch (err) { console.error(err); }
         }
 
         async function loadProjects() {
@@ -566,11 +618,11 @@
         document.getElementById('project-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('project-id').value;
-            
+
             // Get selected tech stack IDs
             const techSelect = document.getElementById('project-tech-select');
             const selectedTechs = Array.from(techSelect.selectedOptions).map(opt => parseInt(opt.value));
-            
+
             const data = {
                 title: document.getElementById('project-title').value,
                 description: document.getElementById('project-desc').value,
@@ -580,7 +632,7 @@
                 github_link: document.getElementById('project-github').value,
                 tech_stack_ids: selectedTechs
             };
-            
+
             const method = id ? 'PUT' : 'POST';
             const url = id ? `${API_BASE}/projects/${id}` : `${API_BASE}/projects`;
 
@@ -590,14 +642,14 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                if(res.ok) {
+                if (res.ok) {
                     closeModal('project-modal');
                     loadProjects();
                 } else alert('Error saving project');
-            } catch(err) { console.error(err); }
+            } catch (err) { console.error(err); }
         });
 
-         window.editProject = (id) => {
+        window.editProject = (id) => {
             const item = allProjects.find(p => p.id === id);
             if (!item) return;
             document.getElementById('project-id').value = item.id;
@@ -607,25 +659,25 @@
             document.getElementById('project-cover').value = item.cover_photo || '';
             document.getElementById('project-live').value = item.live_link || '';
             document.getElementById('project-github').value = item.github_link || '';
-            
+
             document.getElementById('project-modal-title').innerText = 'Edit Project';
-            
+
             // Load techs and select existing ones
             const currentTechIds = item.tech_stack ? item.tech_stack.map(t => t.id) : [];
             loadTechOptions('project-tech-select', currentTechIds);
-            
+
             openModal('project-modal');
         };
 
-         window.deleteProject = async (id) => {
-            if(!confirm('Are you sure?')) return;
+        window.deleteProject = async (id) => {
+            if (!confirm('Are you sure?')) return;
             await fetch(`${API_BASE}/projects/${id}`, { method: 'DELETE' });
             loadProjects();
         };
 
         // --- Contacts ---
         async function loadContacts() {
-             try {
+            try {
                 const res = await fetch(`${API_BASE}/contact`);
                 const data = await res.json();
                 const tbody = document.getElementById('contact-list');
@@ -648,9 +700,9 @@
         }
 
         window.deleteContact = async (id) => {
-            if(!confirm('Are you sure you want to delete this message?')) return;
-             await fetch(`${API_BASE}/contact/${id}`, { method: 'DELETE' });
-             loadContacts();
+            if (!confirm('Are you sure you want to delete this message?')) return;
+            await fetch(`${API_BASE}/contact/${id}`, { method: 'DELETE' });
+            loadContacts();
         }
 
         // Init
@@ -658,4 +710,5 @@
 
     </script>
 </body>
+
 </html>

@@ -43,6 +43,7 @@ class Technology(Base):
     id = Column(Integer, primary_key=True, index=True)
     technology = Column(String, index=True, unique=True)
     category = Column(Enum(CategoryEnum))
+    order = Column(Integer, default=0)
 
     projects = relationship("Project", secondary=project_technologies, back_populates="tech_stack")
 
@@ -56,6 +57,7 @@ class Project(Base):
     live_link = Column(String)
     github_link = Column(String)
     cover_photo = Column(String)
+    order = Column(Integer, default=0)
 
     tech_stack = relationship("Technology", secondary=project_technologies, back_populates="projects")
 
@@ -64,9 +66,11 @@ class Education(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     school = Column(String)
-    time_period = Column(String)
+    start_date = Column(String)
+    end_date = Column(String)
     course = Column(String)
     note = Column(Text, nullable=True)
+    order = Column(Integer, default=0)
 
 class Contact(Base):
     __tablename__ = "contact"

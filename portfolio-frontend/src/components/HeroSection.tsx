@@ -1,7 +1,12 @@
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 
-const HeroSection = () => {
+interface HeroProps {
+  tagLine?: string;
+  bio?: string;
+}
+
+const HeroSection = ({ tagLine, bio }: HeroProps) => {
   return (
     <section id="home" className="relative min-h-screen flex items-center section-padding pt-32">
       {/* Ambient glow */}
@@ -25,21 +30,25 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight mb-8"
           >
-            Learning fast,
-            <br />
-            building <span className="text-gradient">faster</span>.
+            <>
+              Learning fast,
+              <br />
+              building <span className="text-gradient">faster</span>.
+            </>
+
           </motion.h1>
 
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
             className="text-muted-foreground text-lg md:text-xl max-w-xl leading-relaxed mb-12"
           >
-            An aspiring software engineer dedicated to the craft of development,
-            transforming abstract logic into robust systems
-            designed to solve real-world problems.
-          </motion.p>
+            <p>
+              An aspiring software engineer dedicated to the craft of development,
+              transforming abstract logic into robust systems designed to solve real-world problems.
+            </p>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -75,10 +84,6 @@ const HeroSection = () => {
               src="/Portfolio-image-2.png"
               alt="Profile"
               className="w-fit h-fit object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500 ease-in-out"
-            // style={{
-            //   maskImage: `radial-gradient(ellipse 95% 100% at 50% -10%, black 80%, transparent 100%)`,
-            //   WebkitMaskImage: `radial-gradient(ellipse 95% 100% at 50% -10%, black 80%, transparent 100%)`,
-            // }}
             />
           </div>
         </motion.div>

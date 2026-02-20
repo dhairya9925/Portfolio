@@ -1,28 +1,24 @@
 import AnimatedSection from "./AnimatedSection";
 import { GraduationCap } from "lucide-react";
 
-const education = [
-  {
-    degree: "Master of Computer Science",
-    institution: "Stanford University",
-    year: "2020 - 2022",
-    description: "Specialized in Machine Learning and Distributed Systems.",
-  },
-  {
-    degree: "Bachelor of Computer Science",
-    institution: "MIT",
-    year: "2016 - 2020",
-    description: "Graduated with honors. Focus on algorithms and software engineering.",
-  },
-  {
-    degree: "Full-Stack Web Development",
-    institution: "Online Certification",
-    year: "2019",
-    description: "Comprehensive training in modern web technologies and best practices.",
-  },
-];
+interface Education {
+  id: number;
+  school: string;
+  start_date: string;
+  end_date: string;
+  course: string;
+  note: string | null;
+}
 
-const EducationSection = () => {
+interface EducationProps {
+  education?: Education[];
+}
+
+const EducationSection = ({ education = [] }: EducationProps) => {
+  if (education.length === 0) {
+    return null;
+  }
+
   return (
     <section id="education" className="section-padding bg-card/50">
       <div className="max-w-7xl mx-auto">
@@ -39,7 +35,7 @@ const EducationSection = () => {
 
           <div className="space-y-12">
             {education.map((item, i) => (
-              <AnimatedSection key={item.degree} delay={i * 0.2}>
+              <AnimatedSection key={item.id} delay={i * 0.2}>
                 <div className="flex gap-6">
                   <div className="relative flex-shrink-0">
                     <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
@@ -47,10 +43,12 @@ const EducationSection = () => {
                     </div>
                   </div>
                   <div>
-                    <span className="text-xs text-primary font-heading font-medium">{item.year}</span>
-                    <h3 className="font-heading text-xl font-semibold mt-1">{item.degree}</h3>
-                    <p className="text-muted-foreground text-sm mt-1">{item.institution}</p>
-                    <p className="text-muted-foreground text-sm mt-3 leading-relaxed">{item.description}</p>
+                    <span className="text-xs text-primary font-heading font-medium">{item.start_date} - {item.end_date}</span>
+                    <h3 className="font-heading text-xl font-semibold mt-1">{item.course}</h3>
+                    <p className="text-muted-foreground text-sm mt-1">{item.school}</p>
+                    {item.note && (
+                      <p className="text-muted-foreground text-sm mt-3 leading-relaxed">{item.note}</p>
+                    )}
                   </div>
                 </div>
               </AnimatedSection>

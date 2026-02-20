@@ -18,6 +18,7 @@ class ProjectTypeEnumSchema(str, Enum):
 class TechnologyBase(BaseModel):
     technology: str
     category: CategoryEnumSchema
+    order: int = 0
 
 class TechnologyCreate(TechnologyBase):
     pass
@@ -36,6 +37,7 @@ class ProjectBase(BaseModel):
     live_link: Optional[str] = None
     github_link: Optional[str] = None
     cover_photo: Optional[str] = None
+    order: int = 0
 
 class ProjectCreate(ProjectBase):
     tech_stack_ids: List[int] = []
@@ -66,9 +68,11 @@ class Contact(ContactBase):
 # --- Education Schemas ---
 class EducationBase(BaseModel):
     school: str
-    time_period: str
     course: str
+    start_date: str
+    end_date: str
     note: Optional[str] = None
+    order: int = 0
 
 class EducationCreate(EducationBase):
     pass

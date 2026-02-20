@@ -1,13 +1,14 @@
 from fastapi import FastAPI, HTTPException, Depends, status, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from typing import List, Optional
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-import os
+import os, time
 import uuid
 import shutil
 
@@ -114,6 +115,17 @@ def read_personal_detail(db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Personal details not found")
     return detail
 
+# --- Startup ---
+@app.on_event("startup")
+def startup_event():
+    db = next(get_db())
+    # Rebalance orders if they are all 0 or colliding
+    for model in [models.Technology, models.Project, models.Education]:
+        items = db.query(model).order_by(model.order.asc(), model.id.asc()).all()
+        for i, item in enumerate(items):
+            item.order = i + 1
+        db.commit()
+
 # --- Technologies Routes ---
 @app.post("/api/technologies", response_model=schemas.Technology)
 def create_technology(tech: schemas.TechnologyCreate, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
@@ -121,7 +133,9 @@ def create_technology(tech: schemas.TechnologyCreate, db: Session = Depends(get_
     if existing_tech:
         raise HTTPException(status_code=400, detail="Technology already exists")
         
-    db_tech = models.Technology(technology=tech.technology, category=tech.category)
+    # Get max order
+    max_order = db.query(func.max(models.Technology.order)).scalar() or 0
+    db_tech = models.Technology(technology=tech.technology, category=tech.category, order=max_order + 1)
     db.add(db_tech)
     db.commit()
     db.refresh(db_tech)
@@ -129,7 +143,43 @@ def create_technology(tech: schemas.TechnologyCreate, db: Session = Depends(get_
 
 @app.get("/api/technologies", response_model=List[schemas.Technology])
 def read_technologies(db: Session = Depends(get_db)):
-    return db.query(models.Technology).all()
+    return db.query(models.Technology).order_by(models.Technology.order.asc(), models.Technology.id.asc()).all()
+
+@app.put("/api/technologies/{tech_id}", response_model=schemas.Technology)
+def update_technology(tech_id: int, tech: schemas.TechnologyCreate, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+    db_tech = db.query(models.Technology).filter(models.Technology.id == tech_id).first()
+    if not db_tech:
+        raise HTTPException(status_code=404, detail="Technology not found")
+    
+    # Exclude order from update
+    tech_data = tech.dict(exclude={"order"})
+    for key, value in tech_data.items():
+        setattr(db_tech, key, value)
+        
+    db.commit()
+    db.refresh(db_tech)
+    return db_tech
+
+@app.post("/api/technologies/{tech_id}/move")
+def move_technology(tech_id: int, direction: str, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+    tech = db.query(models.Technology).filter(models.Technology.id == tech_id).first()
+    if not tech:
+        raise HTTPException(status_code=404, detail="Technology not found")
+
+    if direction == "up":
+        target = db.query(models.Technology).filter(models.Technology.order < tech.order)\
+                   .order_by(models.Technology.order.desc()).first()
+    elif direction == "down":
+        target = db.query(models.Technology).filter(models.Technology.order > tech.order)\
+                   .order_by(models.Technology.order.asc()).first()
+    else:
+        raise HTTPException(status_code=400, detail="Invalid direction")
+
+    if target:
+        tech.order, target.order = target.order, tech.order
+        db.commit()
+    
+    return {"ok": True}
 
 @app.delete("/api/technologies/{tech_id}")
 def delete_technology(tech_id: int, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
@@ -143,7 +193,12 @@ def delete_technology(tech_id: int, db: Session = Depends(get_db), current_user:
 # --- Projects Routes ---
 @app.post("/api/projects", response_model=schemas.Project)
 def create_project(project: schemas.ProjectCreate, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
-    project_data = project.dict(exclude={"tech_stack_ids"})
+    project_data = project.dict(exclude={"tech_stack_ids", "order"}) # Order handled manually
+    
+    # Get max order
+    max_order = db.query(func.max(models.Project.order)).scalar() or 0
+    project_data['order'] = max_order + 1
+    
     db_project = models.Project(**project_data)
     
     if project.tech_stack_ids:
@@ -157,7 +212,46 @@ def create_project(project: schemas.ProjectCreate, db: Session = Depends(get_db)
 
 @app.get("/api/projects", response_model=List[schemas.Project])
 def read_projects(db: Session = Depends(get_db)):
-    return db.query(models.Project).all()
+    return db.query(models.Project).order_by(models.Project.order.asc(), models.Project.id.asc()).all()
+
+@app.put("/api/projects/{project_id}", response_model=schemas.Project)
+def update_project(project_id: int, project: schemas.ProjectCreate, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+    db_project = db.query(models.Project).filter(models.Project.id == project_id).first()
+    if not db_project:
+        raise HTTPException(status_code=404, detail="Project not found")
+        
+    project_data = project.dict(exclude={"tech_stack_ids", "order"}) # Exclude order
+    for key, value in project_data.items():
+        setattr(db_project, key, value)
+        
+    # Update tech stack
+    technologies = db.query(models.Technology).filter(models.Technology.id.in_(project.tech_stack_ids)).all()
+    db_project.tech_stack = technologies
+
+    db.commit()
+    db.refresh(db_project)
+    return db_project
+
+@app.post("/api/projects/{project_id}/move")
+def move_project(project_id: int, direction: str, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+    project = db.query(models.Project).filter(models.Project.id == project_id).first()
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    if direction == "up":
+        target = db.query(models.Project).filter(models.Project.order < project.order)\
+                   .order_by(models.Project.order.desc()).first()
+    elif direction == "down":
+        target = db.query(models.Project).filter(models.Project.order > project.order)\
+                   .order_by(models.Project.order.asc()).first()
+    else:
+        raise HTTPException(status_code=400, detail="Invalid direction")
+
+    if target:
+        project.order, target.order = target.order, project.order
+        db.commit()
+    
+    return {"ok": True}
 
 @app.delete("/api/projects/{project_id}")
 def delete_project(project_id: int, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
@@ -171,7 +265,10 @@ def delete_project(project_id: int, db: Session = Depends(get_db), current_user:
 # --- Education Routes ---
 @app.post("/api/edu", response_model=schemas.Education)
 def create_education(edu: schemas.EducationCreate, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
-    db_edu = models.Education(**edu.dict())
+    # Get max order
+    max_order = db.query(func.max(models.Education.order)).scalar() or 0
+    
+    db_edu = models.Education(**edu.dict(exclude={"order"}), order=max_order + 1)
     db.add(db_edu)
     db.commit()
     db.refresh(db_edu)
@@ -179,7 +276,41 @@ def create_education(edu: schemas.EducationCreate, db: Session = Depends(get_db)
 
 @app.get("/api/edu", response_model=List[schemas.Education])
 def read_education(db: Session = Depends(get_db)):
-    return db.query(models.Education).all()
+    return db.query(models.Education).order_by(models.Education.order.asc(), models.Education.id.asc()).all()
+
+@app.put("/api/edu/{edu_id}", response_model=schemas.Education)
+def update_education(edu_id: int, edu: schemas.EducationCreate, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+    db_edu = db.query(models.Education).filter(models.Education.id == edu_id).first()
+    if not db_edu:
+        raise HTTPException(status_code=404, detail="Education not found")
+        
+    for key, value in edu.dict(exclude={"order"}).items():
+        setattr(db_edu, key, value)
+        
+    db.commit()
+    db.refresh(db_edu)
+    return db_edu
+
+@app.post("/api/edu/{edu_id}/move")
+def move_education(edu_id: int, direction: str, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+    edu = db.query(models.Education).filter(models.Education.id == edu_id).first()
+    if not edu:
+        raise HTTPException(status_code=404, detail="Education not found")
+
+    if direction == "up":
+        target = db.query(models.Education).filter(models.Education.order < edu.order)\
+                   .order_by(models.Education.order.desc()).first()
+    elif direction == "down":
+        target = db.query(models.Education).filter(models.Education.order > edu.order)\
+                   .order_by(models.Education.order.asc()).first()
+    else:
+        raise HTTPException(status_code=400, detail="Invalid direction")
+
+    if target:
+        edu.order, target.order = target.order, edu.order
+        db.commit()
+    
+    return {"ok": True}
 
 @app.delete("/api/edu/{edu_id}")
 def delete_education(edu_id: int, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):

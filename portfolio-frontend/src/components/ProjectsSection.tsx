@@ -1,34 +1,32 @@
 import AnimatedSection from "./AnimatedSection";
 import { ExternalLink, Github } from "lucide-react";
 
-const projects = [
-  {
-    title: "E-Commerce Platform",
-    description: "A full-featured online store with cart, checkout, and payment integration.",
-    tags: ["React", "Node.js", "Stripe", "PostgreSQL"],
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
-  },
-  {
-    title: "Task Management App",
-    description: "Collaborative task manager with real-time updates and team features.",
-    tags: ["TypeScript", "React", "WebSocket", "MongoDB"],
-    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop",
-  },
-  {
-    title: "AI Dashboard",
-    description: "Analytics dashboard with AI-powered insights and data visualization.",
-    tags: ["Python", "React", "TensorFlow", "D3.js"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-  },
-  {
-    title: "Social Media App",
-    description: "A modern social platform with real-time messaging and content sharing.",
-    tags: ["React Native", "Firebase", "Redux", "Node.js"],
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop",
-  },
-];
+interface Technology {
+  id: number;
+  technology: string;
+  category: string;
+}
 
-const ProjectsSection = () => {
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  project_type: "Hobby" | "Professional" | "Open Source";
+  live_link: string | null;
+  github_link: string | null;
+  cover_photo: string | null;
+  tech_stack: Technology[];
+}
+
+interface ProjectsProps {
+  projects?: Project[];
+}
+
+const ProjectsSection = ({ projects = [] }: ProjectsProps) => {
+  if (projects.length === 0) {
+    return null;
+  }
+
   return (
     <section id="projects" className="section-padding">
       <div className="max-w-7xl mx-auto">
@@ -41,30 +39,55 @@ const ProjectsSection = () => {
 
         <div className="grid md:grid-cols-2 gap-8">
           {projects.map((project, i) => (
-            <AnimatedSection key={project.title} delay={i * 0.15}>
+            <AnimatedSection key={project.id} delay={i * 0.15}>
               <div className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-all duration-500">
                 <div className="relative overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
+                  {project.cover_photo ? (
+                    <img
+                      src={project.cover_photo}
+                      alt={project.title}
+                      className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                  ) : (
+                    <div className="w-full h-52 bg-secondary/50 flex items-center justify-center">
+                      <span className="text-muted-foreground text-sm">No Cover Image</span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                    <button className="p-3 bg-primary rounded-full text-primary-foreground hover:brightness-110 transition">
-                      <ExternalLink className="w-4 h-4" />
-                    </button>
-                    <button className="p-3 bg-secondary rounded-full text-foreground hover:bg-muted transition">
-                      <Github className="w-4 h-4" />
-                    </button>
+                    {project.live_link && (
+                      <a
+                        href={project.live_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-primary rounded-full text-primary-foreground hover:brightness-110 transition"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
+                    {project.github_link && (
+                      <a
+                        href={project.github_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-secondary rounded-full text-foreground hover:bg-muted transition"
+                      >
+                        <Github className="w-4 h-4" />
+                      </a>
+                    )}
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="font-heading text-xl font-semibold mb-2">{project.title}</h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="font-heading text-xl font-semibold">{project.title}</h3>
+                    <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full font-medium">
+                      {project.project_type}
+                    </span>
+                  </div>
                   <p className="text-muted-foreground text-sm mb-4 leading-relaxed">{project.description}</p>
                   <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="text-xs px-3 py-1 bg-secondary rounded-full text-secondary-foreground">
-                        {tag}
+                    {project.tech_stack.map((tech) => (
+                      <span key={tech.id} className="text-xs px-3 py-1 bg-secondary rounded-full text-secondary-foreground">
+                        {tech.technology}
                       </span>
                     ))}
                   </div>
