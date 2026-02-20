@@ -8,7 +8,7 @@ import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
 import { motion } from "framer-motion";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 // Resolve relative image paths (e.g. /uploads/...) to full URLs
 const resolveUrl = (url: string | null | undefined): string | undefined => {
