@@ -8,7 +8,14 @@ import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
 import { motion } from "framer-motion";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_URL = import.meta.env.VITE_API_URL;
+
+// Resolve relative image paths (e.g. /uploads/...) to full URLs
+const resolveUrl = (url: string | null | undefined): string | undefined => {
+    if (!url) return undefined;
+    if (url.startsWith("http")) return url; // Already absolute (e.g. Supabase URL)
+    return `${API_URL}${url}`; // Prepend backend URL to relative paths
+};
 
 // --- Interfaces matching backend schemas ---
 export interface PersonalDetail {
@@ -86,7 +93,12 @@ const Index = () => {
                 if (projRes.status === "fulfilled" && projRes.value.ok) {
                     const projData = await projRes.value.json();
                     console.log("Projects:", projData);
-                    setProjects(projData);
+                    // Resolve cover_photo URLs
+                    const resolved = projData.map((p: Project) => ({
+                        ...p,
+                        cover_photo: resolveUrl(p.cover_photo) ?? p.cover_photo,
+                    }));
+                    setProjects(resolved);
                 }
 
                 // Education
@@ -127,7 +139,7 @@ const Index = () => {
 
     return (
         <div className="min-h-screen bg-background text-foreground">
-            <HeroSection tagLine={personalData?.tag_line} bio={personalData?.bio} profileImage={personalData?.profile_image} />
+            <HeroSection tagLine={personalData?.tag_line} bio={personalData?.bio} profileImage={resolveUrl(personalData?.profile_image)} />
             <AboutSection bio={personalData?.bio} tagline={personalData?.tag_line} />
             <SkillsSection technologies={technologies} />
             <ProjectsSection projects={projects} />
