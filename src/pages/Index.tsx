@@ -3,6 +3,7 @@ import HeroSection from "../components/HeroSection";
 import AboutSection from "../components/AboutSection";
 import SkillsSection from "../components/SkillsSection";
 import ProjectsSection from "../components/ProjectsSection";
+import Navigation from "../components/Navigation";
 import EducationSection from "../components/EducationSection";
 import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
@@ -139,6 +140,7 @@ const Index = () => {
 
     return (
         <div className="min-h-screen bg-background text-foreground">
+            <Navigation />
             <HeroSection tagLine={personalData?.tag_line} bio={personalData?.bio} profileImage={resolveUrl(personalData?.profile_image)} />
             <AboutSection bio={personalData?.bio} tagline={personalData?.tag_line} />
             <SkillsSection technologies={technologies} />
