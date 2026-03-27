@@ -1,107 +1,77 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../lib/supabaseClient';
 import type { Me, Technology, Project, Education } from '../context/PortfolioContext';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export const usePortfolioData = () => {
   return useQuery({
     queryKey: ['portfolioData'],
     queryFn: async () => {
-      // 1. Fetch personal details
-      const { data: meData, error: meError } = await supabase
-        .from('portfolio_personal_detail')
-        .select('*')
-        .limit(1)
-        .single();
-        
-      if (meError && meError.code !== 'PGRST116') {
-        console.error('Error fetching personal details:', meError);
-      }
+      // Fetch endpoints concurrently
+      const [meRes, techRes, projRes, eduRes] = await Promise.all([
+        fetch(`${API_BASE_URL}/api/me`),
+        fetch(`${API_BASE_URL}/api/technologies`),
+        fetch(`${API_BASE_URL}/api/projects`),
+        fetch(`${API_BASE_URL}/api/edu`)
+      ]);
 
-      // 2. Fetch technologies
-      const { data: techData, error: techError } = await supabase
-        .from('portfolio_technologies')
-        .select('*');
-        
-      if (techError) {
-        console.error('Error fetching technologies:', techError);
-      }
+      if (!meRes.ok && meRes.status !== 404) console.error('Error fetching personal details:', meRes.statusText);
+      if (!techRes.ok) console.error('Error fetching technologies:', techRes.statusText);
+      if (!projRes.ok) console.error('Error fetching projects:', projRes.statusText);
+      if (!eduRes.ok) console.error('Error fetching education:', eduRes.statusText);
 
-      // 3. Fetch projects and their relations
-      const { data: projectsData, error: projError } = await supabase
-        .from('portfolio_projects')
-        .select('*');
-        
-      if (projError) {
-        console.error('Error fetching projects:', projError);
-      }
+      const meData = meRes.ok ? await meRes.json() : null;
+      const techData = techRes.ok ? await techRes.json() : [];
+      const projectsData = projRes.ok ? await projRes.json() : [];
+      const eduData = eduRes.ok ? await eduRes.json() : [];
 
-      // Fetch project_technologies junction
-      const { data: projTechData } = await supabase
-        .from('portfolio_project_technologies')
-        .select('*');
-
-      // 4. Fetch education
-      const { data: eduData, error: eduError } = await supabase
-        .from('portfolio_education')
-        .select('*');
-        
-      if (eduError) {
-        console.error('Error fetching education:', eduError);
-      }
-
-      // Map Supabase 'portfolio_personal_detail' to 'Me' context format
+      // Map Me data
       let me: Me | null = null;
       if (meData) {
         me = {
-          full_name: meData.full_name,
-          tagline: meData.tagline,
+          full_name: "Dhairya", // Supabase 'full_name' equivalent
+          tagline: meData.tag_line,
           bio: meData.bio,
           profile_image: meData.profile_image,
-          resume_url: meData.resume_url,
           email: meData.email,
           github: meData.github,
           linkedin: meData.linkedin,
-          twitter: meData.twitter,
           stats: {
-            projects_completed: meData.projects_completed,
-            years_of_experience: meData.years_of_experience,
-            clients: meData.clients,
+            projects_completed: 10,
+            years_of_experience: 2,
+            clients: 5,
           }
         };
       }
 
       // Map Technologies
-      const technologies: Technology[] = (techData || []).map(t => ({
+      const technologies: Technology[] = techData.map((t: any) => ({
         id: t.id,
         technology: t.technology,
         category: t.category,
-        sort_order: t.order, // Map 'order' to 'sort_order'
+        sort_order: t.order,
       }));
 
-      // Map Projects, combining with their technologies if needed
-      const projects: Project[] = (projectsData || []).map(p => {
-        // Find technologies for this project
-        const techIds = (projTechData || [])
-          .filter(pt => pt.project_id === p.id)
-          .map(pt => pt.technology_id);
-          
-        const projectTechs = technologies.filter(t => t.id && techIds.includes(t.id));
-
-        return {
-          id: p.id,
-          title: p.title,
-          description: p.description,
-          project_type: p.project_type,
-          live_link: p.live_link,
-          github_link: p.github_link,
-          cover_photo: p.cover_photo,
-          sort_order: p.order || p.sort_order, // Try both
-          tech_stack: projectTechs
-        };
-      });
+      // Map Projects
+      const projects: Project[] = projectsData.map((p: any) => ({
+        id: p.id,
+        title: p.title,
+        description: p.description,
+        project_type: p.project_type,
+        live_link: p.live_link,
+        github_link: p.github_link,
+        cover_photo: p.cover_photo,
+        sort_order: p.order,
+        tech_stack: (p.tech_stack || []).map((t: any) => ({
+          id: t.id,
+          technology: t.technology,
+          category: t.category,
+          sort_order: t.order,
+        }))
+      }));
 
       // Map Education
-      const education: Education[] = (eduData || []).map(e => ({
+      const education: Education[] = eduData.map((e: any) => ({
         id: e.id,
         degree: e.course || '',
         institution: e.school || '',
