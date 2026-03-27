@@ -1,0 +1,80 @@
+.editorial-loader-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #080807;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  margin: 0;
+  padding: 0;
+}
+
+.editorial-loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.editorial-loader-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 10px);
+  grid-template-rows: repeat(6, 10px);
+  gap: 6px;
+}
+
+.editorial-loader-dot {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #1e1d19;
+  background-color: transparent;
+  box-sizing: border-box;
+  /* Staggered delay injected via inline styles creates the wave */
+  animation: frameExpose 3s infinite ease-in-out;
+}
+
+@keyframes frameExpose {
+
+  0%,
+  10% {
+    background-color: transparent;
+    border-color: #1e1d19;
+  }
+
+  20%,
+  80% {
+    background-color: #ffffff;
+    border-color: #ffffff;
+  }
+
+  90%,
+  100% {
+    background-color: transparent;
+    border-color: #1e1d19;
+  }
+}
+
+.editorial-loader-text {
+  font-family: monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 9px;
+  color: #ffffff;
+  /* Smooth fade that syncs up nicely with the overall grid loop */
+  animation: targetFadeOut 3s infinite ease-in-out;
+}
+
+@keyframes targetFadeOut {
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}

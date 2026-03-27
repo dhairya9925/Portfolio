@@ -4,20 +4,21 @@ import { usePortfolio } from "@/context/PortfolioContext";
 const AboutSection = () => {
   const { me } = usePortfolio();
   const sectionRef = useRef<HTMLDivElement>(null);
-
+  console.log(me)
   const stats = [
     {
       value: me?.stats?.years_of_experience ? `${me.stats.years_of_experience}+` : "3+",
       label: "Years Experience",
     },
+
     {
       value: me?.stats?.projects_completed ? `${me.stats.projects_completed}+` : "20+",
       label: "Projects Built",
     },
-    {
-      value: me?.stats?.clients ? `${me.stats.clients}+` : "5+",
-      label: "Happy Clients",
-    },
+    // {
+    //   value: me?.stats?.clients ? `${me.stats.clients}+` : "5+",
+    //   label: "Happy Clients",
+    // },
   ];
 
   useEffect(() => {
@@ -77,7 +78,7 @@ const AboutSection = () => {
           </div>
 
           <blockquote className="ed-about__pullquote ed-reveal">
-            "Good code is its own best documentation."
+            "Writing clean code is an act of empathy for the next developer."
           </blockquote>
 
           <div className="ed-about__stats ed-reveal">

@@ -26,19 +26,27 @@ const HeroSection = () => {
           </div>
 
           <h1 className="ed-hero__title ed-reveal">
-            {me?.tagline ? (
+            {me?.tagline && !me.tagline.includes("Turning ideas") ? (
               <>
-                {me.tagline.split(',').map((part, i, arr) => (
-                  <span key={i}>
-                    {i === arr.length - 1 ? <em>{part.trim()}</em> : part.trim()}
-                    {i < arr.length - 1 && <br />}
-                  </span>
-                ))}
+                {me.tagline.split(',').map((part, i, arr) => {
+                  const words = part.trim().split(' ');
+                  const lastWord = words.pop();
+                  return (
+                    <span key={i}>
+                      {i === arr.length - 1 ? (
+                        <>{words.join(' ')}{words.length > 0 ? ' ' : ''}<em>{lastWord}</em></>
+                      ) : (
+                        <>{part.trim()}</>
+                      )}
+                      {i < arr.length - 1 && <br />}
+                    </span>
+                  );
+                })}
               </>
             ) : (
               <>
-                I build things<br />
-                for the <em>web.</em>
+                Crafting systems<br />
+                across software and <em>data.</em>
               </>
             )}
           </h1>

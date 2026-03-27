@@ -7,6 +7,9 @@ export const usePortfolioData = () => {
   return useQuery({
     queryKey: ['portfolioData'],
     queryFn: async () => {
+      // Artificial 5-second delay for testing the loader animation
+      // await new Promise(resolve => setTimeout(resolve, 5000));
+
       // Fetch endpoints concurrently
       const [meRes, techRes, projRes, eduRes] = await Promise.all([
         fetch(`${API_BASE_URL}/api/me`),
@@ -38,7 +41,7 @@ export const usePortfolioData = () => {
           linkedin: meData.linkedin,
           stats: {
             projects_completed: 10,
-            years_of_experience: 2,
+            years_of_experience: 1,
             clients: 5,
           }
         };
